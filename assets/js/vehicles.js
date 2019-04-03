@@ -1,7 +1,6 @@
 var request = new XMLHttpRequest()
 
 request.open('GET', 'http://localhost:8080/vehicles', true)
-console.log("Line 4: " + this.request.response);
 request.onload = function() {
   // Begin accessing JSON data here
   var data = JSON.parse(this.response)
@@ -10,66 +9,73 @@ request.onload = function() {
     data.forEach(make => {
         console.log(make.VHCL_MAKE + ": " + make.VHCL_MODL);
     });
-    var vehicles = data;    
-    //var vehicleTitle = document.getElementById('vehicle1');
+    var vehicles = data; 
     for(var i = 0, l = vehicles.length; i < l; i++){
-      var carID="vehicle"+(i + 1);
-      var vehicleTitle = document.getElementById(carID);
-      var vehicle = vehicles[i];
-     vehicleTitle.innerHTML = vehicle.VHCL_YEAR + " " + vehicle.VHCL_MAKE + " " + vehicle.VHCL_MODL;
-    }
-  } else {
-    console.log('error')
-  }
+         var vehicle = vehicles[i];   
+   makeList(vehicle);}
 }
+}
+
 request.send();
 
-var requestDesc = new XMLHttpRequest()
+function makeList(vehicle) {
+  // Establish the array which acts as a data source for the list
+  var vehicleData = [vehicle];
 
-requestDesc.open('GET', 'http://localhost:8080/vehicles', true)
-console.log("Line 30: " + this.requestDesc.response);
-requestDesc.onload = function() {
-  // Begin accessing JSON data here
-  var data = JSON.parse(this.response)
+  // Make a container element for the list
+  var listContainerImage = document.createElement('div');
+  listContainerImage.className='image';
+  var listContainerItem = document.createElement('div');
+  listContainerItem.className='item';
+  var listContainerDesc = document.createElement('div');
+  listContainerDesc.className='desc';
+  var listContainerPrice = document.createElement('div');
+  listContainerPrice.className='price';
   
-  if (requestDesc.status >= 200 && requestDesc.status < 400) {
-    data.forEach(make => {
-        console.log(make.VHCL_DESC);
-    });
-    var vehiclesDescription = data;    
-    for(var i = 0, l = vehiclesDescription.length; i < l; i++){
-      var desID="vehicleDescription"+(i + 1);
-      var vehicleDescribe = document.getElementById(desID);
-      var vehicleDescription = vehiclesDescription[i];
-      vehicleDescribe.innerHTML = vehicleDescription.VHCL_DESC;
-    }
-  } else {
-    console.log('error')
-  }
-}
-requestDesc.send();
-
-var requestPrice = new XMLHttpRequest()
-
-requestPrice.open('GET', 'http://localhost:8080/vehicles', true)
-console.log("Line 55: " + this.requestPrice.response);
-requestPrice.onload = function() {
-  // Begin accessing JSON data here
-  var data = JSON.parse(this.response)
+  // Add it to the page
+  document.getElementById('test').appendChild(listContainerImage);
+  document.getElementById('test').appendChild(listContainerItem);
+  document.getElementById('test').appendChild(listContainerDesc);
+  document.getElementById('test').appendChild(listContainerPrice);
   
-  if (requestPrice.status >= 200 && requestPrice.status < 400) {
-    data.forEach(make => {
-        console.log(make.VHCL_PRICE);
-    });
-    var pricesDescription = data;    
-    for(var i = 0, l = pricesDescription.length; i < l; i++){
-      var priceID="price"+(i + 1);
-      var priceDescribe = document.getElementById(priceID);
-      var priceDescription = pricesDescription[i];
-      priceDescribe.innerHTML = '$'+ priceDescription.VHCL_PRICE;
-    }
-  } else {
-    console.log('error')
+  // Make the list
+  var listElementItem = document.createElement('ul');
+  var listElementDesc = document.createElement('ul');
+  var listElementPrice = document.createElement('ul');
+  var listElementImage = document.createElement('ul');
+
+  // Add it to the page
+  listContainerItem.appendChild(listElementItem);
+  listContainerDesc.appendChild(listElementDesc);
+  listContainerImage.appendChild(listElementImage);
+  listContainerPrice.appendChild(listElementPrice);
+  
+
+  // Set up a loop that goes through the items in listItems one at a time
+  var numberOfListItems = vehicleData.length;
+
+  for (var i = 0; i < numberOfListItems; ++i) {
+      // create an item for each one
+
+      var listItem = document.createElement('li');
+      var listImage = document.createElement('li');
+      var listDesc = document.createElement('li');
+      var listPrice = document.createElement('li');
+      
+      // Add the item text
+      
+      listDesc.innerHTML = vehicleData[i].VHCL_DESC;
+      listPrice.innerHTML = "$" + vehicleData[i].VHCL_PRICE;
+      listImage.innerHTML = '<img class="img-scale" src="assets/media/b-goods/263x200/1.jpg" alt="foto">'
+      listItem.innerHTML = vehicleData[i].VHCL_YEAR + " " + vehicleData[i].VHCL_MAKE + " " + vehicleData[i].VHCL_MODL;
+      
+  
+      // Add listItem to the listElement
+      
+      listElementImage.appendChild(listImage);
+      listElementItem.appendChild(listItem);
+      listElementDesc.appendChild(listDesc);
+      listElementPrice.appendChild(listPrice);
   }
+
 }
-requestPrice.send();
