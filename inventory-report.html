@@ -2,6 +2,9 @@
 <!DOCTYPE html>
 <html lang="zxx">
   <head>
+      <script> if (document.cookie.indexOf("Admin=Valid") == -1) {
+          location.href = "/Login.html";
+        }</script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui">
     <title>RED LINE AUTO LLC</title>
@@ -59,7 +62,6 @@
         <h1>Inventory Report</h1>
         <p id="p1">
             <INPUT type="button" value="Show Inventory Report" onclick="window.location.href='inv-report-screen.html'">
-            <input type="button" id=ivpreport value="Print Inventory Report" />
           </p>
        </div>
 
